@@ -15,7 +15,7 @@ import android.widget.ProgressBar;
 import com.squareup.picasso.Picasso;
 
 public class MainActivity extends AppCompatActivity {
-
+    // Bahnbrechende Änderung.
     private static final String TAG = "MainActivity";
     private static final String UIID = "com.example.picturedownloader.UIID";
 
