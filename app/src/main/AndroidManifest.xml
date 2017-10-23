@@ -18,7 +18,7 @@
             </intent-filter>
         </activity>
         <service
-            android:name=".SleepingService"
+            android:name=".DownloadService"
             android:exported="false"/>
     </application>
 

@@ -4,6 +4,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.net.Uri;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -15,7 +16,7 @@ import android.widget.ProgressBar;
 import com.squareup.picasso.Picasso;
 
 public class MainActivity extends AppCompatActivity {
-    // Bahnbrechende Änderung.
+
     private static final String TAG = "MainActivity";
     private static final String UIID = "com.example.picturedownloader.UIID";
 
@@ -25,8 +26,8 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         IntentFilter progressIntentFilter = new IntentFilter(Constants.BROADCAST_PROGRESS);
-        SleepingStatusReceiver sleepingStatusReceiver = new SleepingStatusReceiver();
-        LocalBroadcastManager.getInstance(this).registerReceiver(sleepingStatusReceiver,
+        DownloadStatusReceiver downloadStatusReceiver = new DownloadStatusReceiver();
+        LocalBroadcastManager.getInstance(this).registerReceiver(downloadStatusReceiver,
                 progressIntentFilter);
 
         IntentFilter downloadFinishedIntentFilter = new IntentFilter(
@@ -40,17 +41,25 @@ public class MainActivity extends AppCompatActivity {
         System.exit(9);
     }
 
-    public void startSleeping(View view){
+    public void startDownload(View view){
         // A uiID is an id for the combination of a progressBar and a ImageView in the UI.
+        String[] pictureUrls = {
+        "https://image.ibb.co/cskzO6/ic_launcher_black.png",
+        "https://image.ibb.co/jqGZqm/ic_launcher_blue.png",
+        "https://image.ibb.co/hNYfVm/ic_launcher_red.png",
+        "https://image.ibb.co/g8mZqm/ic_launcher_turquoise.png",
+        "https://image.ibb.co/jKqzO6/ic_launcher_blue.png",
+        };
         for (int uiId = 0; uiId < 5; uiId++){
-            Intent intent = new Intent(this, SleepingService.class);
-            intent.putExtra(UIID,uiId);
-            Log.i(TAG,"start sleeping intent sent");
-            startService(intent);
+            Intent downloadIntent = new Intent(this, DownloadService.class);
+            downloadIntent.putExtra(UIID,uiId);
+            downloadIntent.setData(Uri.parse(pictureUrls[uiId]));
+            Log.i(TAG,"Start download intent sent.");
+            startService(downloadIntent);
         }
     }
 
-    private class SleepingStatusReceiver extends BroadcastReceiver{
+    private class DownloadStatusReceiver extends BroadcastReceiver{
 
         @Override
         public void onReceive(Context context, Intent intent) {
