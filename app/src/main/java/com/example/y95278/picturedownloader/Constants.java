@@ -9,4 +9,5 @@ public final class Constants {
     public static final String PROGRESS = "com.example.picturedownnloader.PROGRESS";
     public static final String BROADCAST_DOWNLOAD_FINISHED = "com.example.picturedownloader" +
             ".BROADCAST_DOWNLOAD_FINISHED";
+    public static final String PICTURE_DATA = "com.example.picturedownloader.PICTURE_DATA";
 }

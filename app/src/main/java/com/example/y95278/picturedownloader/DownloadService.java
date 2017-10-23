@@ -29,10 +29,11 @@ public class DownloadService extends IntentService{
         String localUrlString = intent.getDataString();
         Log.i("URL",localUrlString.toString());
         byte[] pictureData = download(localUrlString, uiId);
-
-//        Intent downloadFinishedIntent = new Intent(Constants.BROADCAST_DOWNLOAD_FINISHED)
-//                .putExtra(Constants.UUID, uiId);
-//        LocalBroadcastManager.getInstance(this).sendBroadcast(downloadFinishedIntent);
+        Intent downloadFinishedIntent = new Intent (Constants.BROADCAST_DOWNLOAD_FINISHED)
+                .putExtra(Constants.PICTURE_DATA,pictureData);
+        downloadFinishedIntent.putExtra(Constants.UUID, uiId);
+        LocalBroadcastManager.getInstance(this).sendBroadcast(downloadFinishedIntent);
+        Log.i(TAG,"downloadFinishedIntent sent");
     }
     private byte[] download(String urlString, int uiId){
         URL url = null;
