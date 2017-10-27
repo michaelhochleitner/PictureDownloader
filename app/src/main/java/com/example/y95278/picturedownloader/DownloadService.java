@@ -24,14 +24,14 @@ public class DownloadService extends IntentService{
 
     @Override
     protected void onHandleIntent(@Nullable Intent intent) {
-        int uiId = intent.getIntExtra(Constants.UUID, -1);
+        int uiId = intent.getIntExtra(Constants.UIID, -1);
         Log.i(TAG,"onHandleIntent called");
         String localUrlString = intent.getDataString();
         Log.i("URL",localUrlString.toString());
         byte[] pictureData = download(localUrlString, uiId);
         Intent downloadFinishedIntent = new Intent (Constants.BROADCAST_DOWNLOAD_FINISHED)
                 .putExtra(Constants.PICTURE_DATA,pictureData);
-        downloadFinishedIntent.putExtra(Constants.UUID, uiId);
+        downloadFinishedIntent.putExtra(Constants.UIID, uiId);
         LocalBroadcastManager.getInstance(this).sendBroadcast(downloadFinishedIntent);
         Log.i(TAG,"downloadFinishedIntent sent");
     }
@@ -64,7 +64,7 @@ public class DownloadService extends IntentService{
                 Log.i(TAG,"IntPercentage"+Integer.toString(intPercentage));
                 Intent progressIntent = new Intent(Constants.BROADCAST_PROGRESS);
                 progressIntent.putExtra(Constants.PROGRESS, intPercentage);
-                progressIntent.putExtra(Constants.UUID, uiId);
+                progressIntent.putExtra(Constants.UIID, uiId);
                 LocalBroadcastManager.getInstance(this).sendBroadcast(progressIntent);
             }
         }
